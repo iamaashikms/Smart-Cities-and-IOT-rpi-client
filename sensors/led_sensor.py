@@ -1,16 +1,16 @@
 import grovepi
 import time
 
-BUZZER_PORT = 3    # Buzzer connected to digital port D2
+LED_PORT = 2   # Buzzer connected to digital port D2
 
-def activate_buzzer_sensor():
+def activate_led_sensor():
     try:
         # Activate buzzer for 2 seconds
-        grovepi.pinMode(BUZZER_PORT, "OUTPUT")
-        grovepi.digitalWrite(BUZZER_PORT, 1)
+        grovepi.pinMode(LED_PORT, "OUTPUT")
+        grovepi.digitalWrite(LED_PORT, 0)#
         print("Buzzer activated for 2 seconds.")
         time.sleep(2)
-        grovepi.digitalWrite(BUZZER_PORT, 0)#
+        grovepi.digitalWrite(LED_PORT, 0)#
 
     except IOError as e:
         return {
