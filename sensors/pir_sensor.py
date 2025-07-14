@@ -1,6 +1,6 @@
 import grovepi
 
-PIR_PORT = 3  # PIR sensor connected to digital port D3
+PIR_PORT = 2  # PIR sensor connected to digital port D2
 
 def read_pir_sensor():
     try:
