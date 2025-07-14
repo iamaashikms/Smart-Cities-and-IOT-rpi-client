@@ -1,7 +1,7 @@
 import grovepi
 import time
 
-BUZZER_PORT = 2    # Buzzer connected to digital port D2
+BUZZER_PORT = 3    # Buzzer connected to digital port D2
 
 def activate_buzzer_sensor():
     try:
