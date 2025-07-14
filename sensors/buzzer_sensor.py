@@ -11,8 +11,8 @@ def activate_buzzer_sensor():
         # Activate buzzer for 2 seconds
         grovepi.pinMode(BUZZER_PORT, "OUTPUT")
         grovepi.digitalWrite(BUZZER_PORT, 1)
-        print("Buzzer activated for 2 seconds.")
-        time.sleep(2000)
+        print("Buzzer activated for 5 seconds.")
+        time.sleep(5)
         grovepi.digitalWrite(BUZZER_PORT, 0)#
 
     except IOError as e:
