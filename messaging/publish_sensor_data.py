@@ -9,5 +9,3 @@ def publish_sensor_data(dht_data):
         publish_message("sensor.dht.environment", msg)
     else:
         print(" DHT sensor error:", dht_data["error"])
-
-s
