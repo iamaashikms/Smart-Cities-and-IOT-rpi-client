@@ -1,5 +1,6 @@
 import pika
 import os
+import json
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -16,7 +17,15 @@ connection = pika.BlockingConnection(pika.ConnectionParameters(RABBITMQ_HOST, 56
 channel = connection.channel()
 channel.exchange_declare(exchange=EXCHANGE_NAME, exchange_type='topic', durable=True, auto_delete=False)
 
-def publish_message(routing_key: str, message: str):
-    """Publish message to RabbitMQ topic exchange"""
+def publish_message(routing_key: str, message):
+    """Publish message to RabbitMQ topic exchange. Accepts dict or str."""
+
+    if isinstance(message, dict):
+        # Convert dictionary to JSON string
+        message = json.dumps(message)
+
+    if not isinstance(message, str):
+        raise TypeError("Message must be a string or dict.")
+
     channel.basic_publish(exchange=EXCHANGE_NAME, routing_key=routing_key, body=message)
-    print(" Sent: {}".format(message))
+    print("Sent to '{}': {}".format(routing_key, message))
