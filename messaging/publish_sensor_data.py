@@ -1,11 +1,15 @@
-from messaging.publisher import publish_message
-
-
-def publish_sensor_data(dht_data,routing_key):
-    # --- DHT Sensor Data ---
-    print("DHT data fetched:", dht_data)
-    if "error" not in dht_data:
-        msg = "{} | DHT Temp = {}°C, Humidity = {}%".format(dht_data['timestamp'], dht_data['temperature'], dht_data['humidity'])
-        publish_message(routing_key, msg)
+def publish_sensor_data(data, topic):
+    if topic == "sensor.dht.environment":
+        msg = "{} | DHT Temp = {}°C, Humidity = {}%".format(
+            data['timestamp'], data['temperature'], data['humidity']
+        )
+    elif topic == "sensor.pir.environment":
+        msg = "{} | Motion Detected = {}".format(
+            data.get('timestamp', 'N/A'), data.get('motion_detected')
+        )
     else:
-        print(" DHT sensor error:", dht_data["error"])
+        msg = "{} | Data: {}".format(
+            data.get('timestamp', 'N/A'), data
+        )
+
+    print("Publishing to {}: {}".format(topic, msg))
