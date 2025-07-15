@@ -31,9 +31,9 @@ def start_subscriber(routing_key: str, callback, queue_name: str = '', auto_ack:
     channel.queue_bind(exchange=EXCHANGE_NAME, queue=queue_name, routing_key=routing_key)
 
     def wrapper(ch, method, properties, body):
-        print(f" Received from {method.routing_key}: {body.decode()}")
+        print(" Received from {}: {}".format(method.routing_key, body.decode()))
         callback(ch, method, body)
 
     channel.basic_consume(queue=queue_name, on_message_callback=wrapper, auto_ack=auto_ack)
-    print(f" [*] Waiting for messages with routing key '{routing_key}'. To exit press CTRL+C")
+    print(" [*] Waiting for messages with routing key '{}'. To exit press CTRL+C".format(routing_key))
     channel.start_consuming()
