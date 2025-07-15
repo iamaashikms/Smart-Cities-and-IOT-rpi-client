@@ -1,6 +1,6 @@
 import time
 import sched
-
+from datetime import datetime
 from messaging.publish_sensor_data import publish_sensor_data
 from sensors.buzzer_sensor import activate_buzzer_sensor
 from sensors.dht_sensor import read_dht_sensor
@@ -13,9 +13,12 @@ scheduler = sched.scheduler(time.time, time.sleep)
 # Time intervals
 CHECK_INTERVAL = 5             # Check every 5 seconds
 DHT_PUBLISH_INTERVAL = 600     # Publish DHT data every 10 minutes
-
 last_dht_publish_time = 0
 
+motion_event = {
+        "motion_detected": True,
+        "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    }
 def scheduled_task():
     global last_dht_publish_time
 
@@ -26,7 +29,7 @@ def scheduled_task():
     if motion_data.get("motion_detected"):
         print("Motion detected! Activating buzzer and publishing motion data.")
         activate_buzzer_sensor()
-        publish_sensor_data({"motion_detected": True}, "sensor.pir.environment")
+        publish_sensor_data(motion_event, "sensor.pir.environment")
     else:
         print("No motion detected.")
 
