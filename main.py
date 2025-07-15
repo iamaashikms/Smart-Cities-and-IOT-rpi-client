@@ -11,8 +11,8 @@ from sensors.pir_sensor import read_pir_sensor
 scheduler = sched.scheduler(time.time, time.sleep)
 
 # Time intervals
-CHECK_INTERVAL = 5             # Check every 5 seconds
-DHT_PUBLISH_INTERVAL = 600     # Publish DHT data every 10 minutes
+CHECK_INTERVAL = 3             # Check every 5 seconds
+DHT_PUBLISH_INTERVAL = 30     # Publish DHT data every 10 minutes
 last_dht_publish_time = 0
 
 motion_event = {
