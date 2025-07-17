@@ -4,7 +4,7 @@ import threading
 from datetime import datetime
 from messaging.publisher import publish_message
 from messaging.subscriber import start_subscriber
-from sensors.buzzer_sensor import activate_buzzer_sensor
+from sensors.buzzer_sensor import activate_buzzer_sensor, beep_buzzer_sensor
 from sensors.dht_sensor import read_dht_sensor
 from sensors.led_sensor import activate_led_sensor
 from sensors.pir_sensor import read_pir_sensor
@@ -18,7 +18,7 @@ CHECK_INTERVAL = 5  # Check every 5 seconds
 
 def scheduled_task():
     print("\n[{}] Running scheduled task...".format(datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
-
+    deactivate_buzzer_sensor()
     # Read PIR sensor
     pir_data = read_pir_sensor()
     motion_detected = pir_data.get("motion_detected", False)
@@ -32,7 +32,7 @@ def scheduled_task():
     buzzer_activated = False
     if motion_detected:
         print("Motion detected! Activating buzzer.")
-        activate_buzzer_sensor()
+        beep_buzzer_sensor()
         buzzer_activated = True
     else:
         print("No motion detected.")
@@ -61,7 +61,7 @@ def handle_alert(ch, method, body):
             print("High humidity alert received. Activating buzzer in pattern.")
 
             def buzzer_pattern():
-                for _ in range(4):
+                for i in range(4):
                     activate_buzzer_sensor()
                     time.sleep(1)
                     deactivate_buzzer_sensor()
