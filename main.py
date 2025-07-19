@@ -79,10 +79,57 @@ def handle_alert(ch, method, body):
 
     except json.JSONDecodeError:
         print("Invalid alert data received:", body.decode())
+
+def handle_servo(ch, method, body):
+    try:
+        print("Received SERVO message:", body.decode())
+        servo_action = json.loads(body.decode())
+        if servo_action.get("action") == "open_window":
+            print("OPEN received. Activating servo to 180 degrees.")        
+            # Run the buzzer pattern in a separate thread so publishing is not blocked
+            threading.Thread(target=move_servo_to_180(), daemon=True).start()
+        elif servo_action.get("action") == "close_window":
+            print("CLOSE received. Activating servo to 0 degrees.")
+            # Run the buzzer pattern in a separate thread so publishing is not blocked
+            threading.Thread(target=move_servo_to_0(), daemon=True).start()
+    except json.JSONDecodeError:
+        print("Invalid alert data received:", body.decode())    
+
+def handle_led(ch, method, body):
+    try:
+        print("Received LED message:", body.decode())
+        servo_action = json.loads(body.decode())
+        if servo_action.get("action") == "turn_on":
+            print("ON LED received. Activating LED.")        
+            threading.Thread(target=turn_led_on(), daemon=True).start()
+        elif servo_action.get("action") == "turn_off":
+            print("OFF LED received. De-activating LED.")
+            threading.Thread(target=turn_led_off(), daemon=True).start()
+    except json.JSONDecodeError:
+        print("Invalid alert data received:", body.decode())   
+
+def handle_buzzer(ch, method, body):
+    try:
+        print("Received BUZZER message:", body.decode())
+        servo_action = json.loads(body.decode())
+        if servo_action.get("action") == "activate":
+            print("ON Buzzer received. Activating Buzzer.")        
+            threading.Thread(target=activate_buzzer_sensor(), daemon=True).start()
+        elif servo_action.get("action") == "deactivate":
+            print("OFF Buzzer received. De-activating Buzzer.")
+            threading.Thread(target=deactivate_buzzer_sensor(), daemon=True).start()
+        elif servo_action.get("action") == "beep":
+            print("BEEP Buzzer received. Beeping Buzzer.")
+            threading.Thread(target=beep_buzzer_sensor(), daemon=True).start()
+    except json.JSONDecodeError:
+        print("Invalid alert data received:", body.decode())                       
 def main():
     print("Starting scheduled sensor data collection and alert listener...")
     # Start alert subscriber in a separate thread
     threading.Thread(target=lambda: start_subscriber("sensor.alert", handle_alert), daemon=True).start()
+    threading.Thread(target=lambda: start_subscriber("sensor.servo", handle_servo), daemon=True).start()
+    threading.Thread(target=lambda: start_subscriber("sensor.led", handle_led), daemon=True).start()
+    threading.Thread(target=lambda: start_subscriber("sensor.buzzer", handle_buzzer), daemon=True).start()
     # Start the scheduled sensor publishing
     scheduler.enter(0, 1, scheduled_task)
     scheduler.run()
