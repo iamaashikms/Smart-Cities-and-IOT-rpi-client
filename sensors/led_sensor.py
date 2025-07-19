@@ -1,19 +1,27 @@
 import grovepi
 import time
 
-LED_PORT = 2   # Buzzer connected to digital port D2
+# LED connected to digital port D4 (example)
+LED_PORT = 6
+grovepi.pinMode(LED_PORT, "OUTPUT")
 
-def activate_led_sensor():
-    try:
-        # Activate buzzer for 2 seconds
-        grovepi.pinMode(LED_PORT, "OUTPUT")
-        grovepi.digitalWrite(LED_PORT, 0)#
-        print("Buzzer activated for 2 seconds.")
-        time.sleep(2)
-        grovepi.digitalWrite(LED_PORT, 0)#
 
-    except IOError as e:
-        return {
-            "error": "Failed to read from DHT sensor or control buzzer",
-            "message": str(e)
-        }
+def initialize_led_off():
+    """Ensure the LED is OFF when starting the program."""
+    grovepi.digitalWrite(LED_PORT, 0)
+    
+    print("LED initialized to OFF.")
+
+
+def turn_led_on():
+    """Turn the LED ON."""
+    grovepi.digitalWrite(LED_PORT, 1)
+    time.sleep(2)
+    print("LED turned ON.")
+
+
+def turn_led_off():
+    """Turn the LED OFF."""
+    grovepi.digitalWrite(LED_PORT, 0)
+    time.sleep(2)
+    print("LED turned OFF.")

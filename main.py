@@ -7,7 +7,7 @@ from messaging.publisher import publish_message
 from messaging.subscriber import start_subscriber
 from sensors.buzzer_sensor import activate_buzzer_sensor, beep_buzzer_sensor
 from sensors.dht_sensor import read_dht_sensor
-from sensors.led_sensor import activate_led_sensor
+from sensors.led_sensor import activate_led_sensor, initialize_led_off, turn_led_off, turn_led_on
 from sensors.pir_sensor import read_pir_sensor
 from sensors.buzzer_sensor import activate_buzzer_sensor, deactivate_buzzer_sensor
 from sensors.servo_senor import move_servo_to_0, move_servo_to_180
@@ -21,6 +21,7 @@ CHECK_INTERVAL = 5  # Check every 5 seconds
 def scheduled_task():
     print("\n[{}] Running scheduled task...".format(datetime.now().strftime("%Y-%m-%d %H:%M:%S")))
     deactivate_buzzer_sensor()
+    initialize_led_off()
     # Read PIR sensor
     pir_data = read_pir_sensor()
     motion_detected = pir_data.get("motion_detected", False)
@@ -36,7 +37,9 @@ def scheduled_task():
         print("Motion detected! Activating buzzer.")
         beep_buzzer_sensor()
         move_servo_to_180()
+        turn_led_on()
         move_servo_to_0()
+        turn_led_off()
         buzzer_activated = True
     else:
         print("No motion detected.")
