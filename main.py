@@ -7,7 +7,7 @@ from messaging.publisher import publish_message
 from messaging.subscriber import start_subscriber
 from sensors.buzzer_sensor import activate_buzzer_sensor, beep_buzzer_sensor
 from sensors.dht_sensor import read_dht_sensor
-from sensors.led_sensor import activate_led_sensor, initialize_led_off, turn_led_off, turn_led_on
+from sensors.led_sensor import  initialize_led_off, turn_led_off, turn_led_on
 from sensors.pir_sensor import read_pir_sensor
 from sensors.buzzer_sensor import activate_buzzer_sensor, deactivate_buzzer_sensor
 from sensors.servo_senor import move_servo_to_0, move_servo_to_180
