@@ -10,6 +10,7 @@ from sensors.dht_sensor import read_dht_sensor
 from sensors.led_sensor import activate_led_sensor
 from sensors.pir_sensor import read_pir_sensor
 from sensors.buzzer_sensor import activate_buzzer_sensor, deactivate_buzzer_sensor
+from sensors.servo_senor import move_servo_to_0, move_servo_to_180
 # Create scheduler instance
 scheduler = sched.scheduler(time.time, time.sleep)
 
@@ -34,6 +35,8 @@ def scheduled_task():
     if motion_detected:
         print("Motion detected! Activating buzzer.")
         beep_buzzer_sensor()
+        move_servo_to_180()
+        move_servo_to_0()
         buzzer_activated = True
     else:
         print("No motion detected.")
