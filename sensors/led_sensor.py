@@ -16,12 +16,10 @@ def initialize_led_off():
 def turn_led_on():
     """Turn the LED ON."""
     grovepi.digitalWrite(LED_PORT, 1)
-    time.sleep(250)
     print("LED turned ON.")
 
 
 def turn_led_off():
     """Turn the LED OFF."""
     grovepi.digitalWrite(LED_PORT, 0)
-    time.sleep(250)
     print("LED turned OFF.")
