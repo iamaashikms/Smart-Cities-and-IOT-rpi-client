@@ -15,7 +15,7 @@ from sensors.servo_senor import move_servo_to_0, move_servo_to_180
 scheduler = sched.scheduler(time.time, time.sleep)
 
 # Time interval
-CHECK_INTERVAL = 300  # Check every 5 seconds
+CHECK_INTERVAL = 30  # Check every 5 seconds
 
 
 def scheduled_task():
