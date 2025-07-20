@@ -35,11 +35,11 @@ def scheduled_task():
     buzzer_activated = False
     if motion_detected:
         print("Motion detected! Activating buzzer.")
-        beep_buzzer_sensor()
-        move_servo_to_180()
-        turn_led_on()
-        move_servo_to_0()
-        turn_led_off()
+        # beep_buzzer_sensor()
+        # move_servo_to_180()
+        # turn_led_on()
+        # move_servo_to_0()
+        # turn_led_off()
         buzzer_activated = True
     else:
         print("No motion detected.")
